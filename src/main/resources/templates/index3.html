@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>王咪小宝贝的专属</title>
+    <style>
+        .content{
+            text-align: center;
+            font-size: 100px;
+            color: hotpink;
+            margin: auto;
+            width: 1600px;
+            min-height: 2133px;
+            background-image: url("./img.png");
+        }
+        .contentBoby{
+            margin: 10px;
+        }
+        h1 {
+            background: linear-gradient(to right, red, orange, yellow, green, yellow, orange, red, orange, yellow, green, yellow, orange, red);
+            -webkit-background-clip: text;/*背景颜色以文本方式剪切*/
+            -webkit-text-fill-color: transparent;/*文字填充为透明色让设置的渐变色显示出来，一定要设置为透明色不然设置的渐变色无法显示出来，会被遮挡住*/
+        }
+    </style>
+</head>
+<body class="body">
+        <div class="content">
+            <h1 class="contentBoby" th:text="'i love look wang咪,她已经被我暴揍'+${num}+'次了'"></h1>
+        </div>
+</body>
+</html>

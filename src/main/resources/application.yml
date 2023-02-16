@@ -1,0 +1,13 @@
+server:
+  port: 8080
+#配置thymeleaf视图解析器
+spring:
+  thymeleaf:
+    prefix: Classpath:/templates/
+    suffix: .html
+    mode: HTML5
+    encoding: utf-8
+    servlet:
+      content-type: text/html
+
+

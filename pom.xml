@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.example</groupId>
+    <artifactId>tyspringboot</artifactId>
+    <version>0.0.1</version>
+
+
+    <!--继承父包-->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.2.6.RELEASE</version>
+        <relativePath/>
+    </parent>
+
+    <properties>
+        <docker.image.prfix>dockerTest</docker.image.prfix>
+    </properties>
+
+    <dependencies>
+
+        <!--测试-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+        <!--web启动jar-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!--lombok 简化实体类-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.6</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!--引入 thymeleaf 模板 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+            <version>2.2.6.RELEASE</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <fork>true</fork>
+                </configuration>
+            </plugin>
+
+            <!--使用docker-maven-plugin插件-->
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>1.0.0</version>
+                <!--将插件绑定在某个phase执行-->
+                <executions>
+                    <execution>
+                        <id>build-image</id>
+                        <!--用户只需执行mvn package ，就会自动执行mvn docker:build-->
+                        <phase>package</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <!--指定基础镜像jdk1.8-->
+                    <baseImage>openjdk:8</baseImage>
+                    <!--指定生成的镜像名-->
+                    <imageName>${project.artifactId}</imageName>
+                    <!--切换到ROOT目录-->
+                    <workdir>/</workdir>
+                    <cmd>["java", "-version"]</cmd>
+                    <entryPoint>["java", "-jar", "${project.build.finalName}.jar"]</entryPoint>
+                    <!--指定远程 docker api地址-->
+                    <dockerHost>http://101.42.42.152:2375</dockerHost>
+                    <!-- 这里是复制 jar 包到 docker 容器指定目录配置 -->
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <!--jar 包所在的路径  此处配置的 即对应 target 目录-->
+                            <directory>${project.build.directory}</directory>
+                            <!--用于指定需要复制的文件 需要包含的 jar包 ，这里对应的是 Dockerfile中添加的文件名　-->
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>
+
+
+
+
+     <!--
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    &lt;!&ndash; 增加fork 才允许热部署 ,fork 交叉&ndash;&gt;
+                    <fork>true</fork>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <configuration>
+                    &lt;!&ndash;生成的镜像名字&ndash;&gt;
+&lt;!&ndash;                    <imageName>${docker.image.prfix}/${project.artifactId}</imageName>&ndash;&gt;
+
+                    <imageName>${project.artifactId></imageName>
+                    &lt;!&ndash;指定标签&ndash;&gt;
+                    <imageTags>
+                        <imageTag>${project.version}</imageTag>
+                    </imageTags>
+                    &lt;!&ndash;基础镜像jdk1.8&ndash;&gt;
+                    <baseImage>java:8</baseImage>
+                    &lt;!&ndash;制作者提供本人信息&ndash;&gt;
+                    <maintainer>My-email-18438902712@163.com</maintainer>
+                    <workdir>/ROOT</workdir>
+                    <cmd>["java","-version"]</cmd>
+                    <entryPoint>["java","-jar","${project.build.finalName}"]</entryPoint>
+
+                    &lt;!&ndash;指定生成的Dockerfile文件路径&ndash;&gt;
+                    <dockerDirectory>/home/docker</dockerDirectory>
+                    &lt;!&ndash;指定远程docker api地址&ndash;&gt;
+                    <dockerHost>http://101.42.42.152:2375</dockerHost>
+                    <resources>
+                        <resource>
+                            <targetPath>/ROOT</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
+
+                &lt;!&ndash;当打包时直接给我build一个docker镜像&ndash;&gt;
+                <executions>
+                    <execution>
+                        <id>build-image</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>-->
+
+        </plugins>
+    </build>
+
+</project>
