@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class DemoController {
 
-    private Integer num = 521;
+    private Integer num = 522;
 
     @GetMapping
     @ResponseBody
