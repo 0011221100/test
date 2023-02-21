@@ -21,9 +21,9 @@ public class DemoController {
     @GetMapping
     @ResponseBody
     public String index(Model model){
-//        model.addAttribute("num",num++);
+        num++;
        log.info("你好index3");
-        return "index3scc";
+        return "【欢迎来到我的jenkins+docker】Demo项目"+num;
     }
 
     @GetMapping("/index")
