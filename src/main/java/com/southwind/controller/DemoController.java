@@ -23,14 +23,14 @@ public class DemoController {
     public String index(Model model){
 //        model.addAttribute("num",num++);
        log.info("你好index3");
-        return "index3";
+        return "index3scc";
     }
 
     @GetMapping("/index")
     @ResponseBody
     public String index2(){
         log.info("你好Ok");
-        return "OK!";
+        return "OKcc!";
     }
 
 }
