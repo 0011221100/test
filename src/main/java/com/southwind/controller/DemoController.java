@@ -23,7 +23,7 @@ public class DemoController {
     public String index(Model model){
         num++;
        log.info("你好index3");
-        return "【欢迎来到我的jenkins+docker】Demo项目"+num;
+        return "【欢迎来到我的jenkins+docker】【欢迎来到我的jenkins+docker】【欢迎来到我的jenkins+docker】Demo项目"+num;
     }
 
     @GetMapping("/index")
